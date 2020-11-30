@@ -12,14 +12,15 @@ void Wprowadzanie(const char*nazwa) //funkcja do wprowadzania danych
     int n;
 
     ofstream zapis1(nazwa);
-    n=rand()% 99 + 2;// losowanie liczb z zakresu od 2 do 100
+    n=rand()% 99 + 2;
+    n=150;// losowanie liczb z zakresu od 2 do 100
     int *Z= new int[n];
 
     for (int i=0; i<n; i++)
     {
 
 
-        Z[i]=-20+rand()%41; // losowanie liczb z zakresu -20 do 20
+        Z[i]=-200+rand()%401; // losowanie liczb z zakresu -20 do 20
         zapis1<<Z[i]<<" ";
     }
     zapis1.close();
@@ -32,10 +33,13 @@ void Odczyt_txt(const char* nazwa,int &n,vector<int>&tab)
 
     ifstream zrodlo(nazwa);
     int liczba=0;
+
     while(zrodlo>>liczba) //dopoki w zrodle znajduje sie liczba
         tab.push_back(liczba); //dodaj element do wektora tab
 
     n=tab.size(); //rozmiar wektora tab
+
+
 
 }
 
@@ -58,7 +62,7 @@ void Max_iloczyn(vector<int> tablica,int & maks,int rozmiar,int& s, vector<int> 
 
     int m,n,k,l;
     int f;
-    int mianownik=0; //niefortunna nazwa zmiennej, sluzy do zliczania jak licznik
+    // int mianownik=0; //niefortunna nazwa zmiennej, sluzy do zliczania jak licznik
     int licznik=0;
     bool ok=false;
     m=rozmiar-1;
@@ -71,7 +75,7 @@ void Max_iloczyn(vector<int> tablica,int & maks,int rozmiar,int& s, vector<int> 
 
         if(tablica[i]>=0) //sprawdzanie czy dodatnia
         {
-            mianownik++;
+            //mianownik++;
 
             for(j=i+1; j<rozmiar; j++)
             {
@@ -95,7 +99,7 @@ void Max_iloczyn(vector<int> tablica,int & maks,int rozmiar,int& s, vector<int> 
 
 
                 }
-                else if (mianownik==1)       //sprawdzenie warunku zeby nie dodac dwa razy tych samych liczb
+                else //if (mianownik==1)       //sprawdzenie warunku zeby nie dodac dwa razy tych samych liczb
                     tablica3.push_back(tablica[j]);
 
             }
@@ -107,8 +111,8 @@ void Max_iloczyn(vector<int> tablica,int & maks,int rozmiar,int& s, vector<int> 
         else if (licznik==0) //sprawdzenie warunku jak wyzej
             tablica3.push_back(tablica[i]);
 
-
-
+        if(licznik!=0)
+            break;        //mozna dodac przerywanie petli po pierwszym obiegu
     }
 
     f=tablica3.size(); //rozmiar tablicy liczb ujemnych
@@ -121,7 +125,9 @@ void Max_iloczyn(vector<int> tablica,int & maks,int rozmiar,int& s, vector<int> 
     {
         l=f-2;
         for (int i=0; i<f; i++)
-            for(int j=i+1; j<f; j++)
+        {
+
+            for( j=i+1; j<f; j++)
             {
                 max0=tablica3[i]*tablica3[j];
 
@@ -134,9 +140,10 @@ void Max_iloczyn(vector<int> tablica,int & maks,int rozmiar,int& s, vector<int> 
                 if(tablica3[j]<=tablica3[i])
                     i=j;
             }
+            if(j==f)
+                break;  //przerwyanie po pierwszym przebiegu
 
-
-
+        }
 
 
     }
@@ -218,11 +225,15 @@ void Zapisz(const char*nazwa,int maks, int k, vector<int>A)
 {
 
     ofstream plik(nazwa);
+
     plik<< "Najwiekszy iloczyn dwoch liczb:"<<endl;
     plik << maks<<endl;
     plik<<"Pary liczb:"<<endl;
     for(int i=0; i<k; i+=2) //wypisanie par liczb z wektora wyznaczonego w funkcji Max_iloczyn
         plik<<"["<<A[i]<<","<<A[i+1]<<"]"<<endl;
+
+
+
 
 }
 
